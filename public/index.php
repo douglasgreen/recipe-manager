@@ -3,11 +3,11 @@ declare(strict_types=1);
 session_start();
 
 // --- CONFIGURATION & DATABASE (Unchanged Logic) ---
-$ini = parse_ini_file(__DIR__ . '/config.ini', true, INI_SCANNER_TYPED);
+$ini = parse_ini_file(__DIR__ . '/../config.ini', true, INI_SCANNER_TYPED);
 if ($ini === false || !isset($ini['db'])) {
     // Fallback for testing if config is missing, remove in production
     $db = ['host' => 'localhost', 'port' => '3306', 'dbname' => 'recipes', 'username' => 'root', 'password' => ''];
-    // throw new RuntimeException('Unable to read database configuration.'); 
+    // throw new RuntimeException('Unable to read database configuration.');
 } else {
     $db = $ini['db'];
 }
@@ -221,12 +221,12 @@ if ($searchQuery !== '') $currentCategoryName = 'Search Results';
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Cookbook</title>
-    
+
     <!-- Fonts: Inter for UI, Playfair Display for Headings -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Bootstrap 5.3 & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -239,7 +239,7 @@ if ($searchQuery !== '') $currentCategoryName = 'Search Results';
             --bs-body-bg: #f8f9fa;
         }
         h1, h2, h3, h4, h5 { font-family: 'Playfair Display', serif; }
-        
+
         /* Sidebar Styling */
         .sidebar-link {
             border-radius: 0.5rem;
@@ -249,7 +249,7 @@ if ($searchQuery !== '') $currentCategoryName = 'Search Results';
         }
         .sidebar-link:hover { background-color: #e9ecef; color: #000; }
         .sidebar-link.active { background-color: #d1e7dd; color: #0f5132; }
-        
+
         /* Card Styling */
         .recipe-card {
             border: none;
@@ -263,20 +263,20 @@ if ($searchQuery !== '') $currentCategoryName = 'Search Results';
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.08);
         }
-        
+
         /* Form polish */
         .form-control:focus, .form-select:focus {
             border-color: #198754;
             box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
         }
-        
+
         /* Ingredient List */
         .ingredient-list li {
             padding: 0.4rem 0;
             border-bottom: 1px dashed #e9ecef;
         }
         .ingredient-list li:last-child { border-bottom: none; }
-        
+
         /* Utility */
         .btn-circle { width: 38px; height: 38px; padding: 6px 0; border-radius: 50%; text-align: center; line-height: 1.42857; }
     </style>
@@ -289,7 +289,7 @@ if ($searchQuery !== '') $currentCategoryName = 'Search Results';
         <a class="navbar-brand d-flex align-items-center gap-2 text-primary fw-bold fs-4" href="?">
             <i class="bi bi-journal-bookmark-fill"></i> Cookbook
         </a>
-        
+
         <div class="d-flex gap-2 ms-auto order-lg-last">
             <button class="btn btn-primary rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#addRecipeModal">
                 <i class="bi bi-plus-lg me-1"></i> <span class="d-none d-sm-inline">New Recipe</span>
@@ -303,7 +303,7 @@ if ($searchQuery !== '') $currentCategoryName = 'Search Results';
 
 <div class="container-fluid">
     <div class="row">
-        
+
         <!-- Sidebar (Desktop: Sticky Col / Mobile: Offcanvas) -->
         <div class="col-lg-3 col-xl-2 d-none d-lg-block bg-body px-3 py-4 border-end min-vh-100">
             <div class="sticky-top" style="top: 5rem; z-index: 1;">
@@ -324,7 +324,7 @@ if ($searchQuery !== '') $currentCategoryName = 'Search Results';
 
         <!-- Main Content -->
         <main class="col-lg-9 col-xl-10 py-4 px-4 bg-body-tertiary min-vh-100">
-            
+
             <!-- Flash Messages -->
             <div class="container-fluid p-0 mb-4">
                 <?php foreach ($flashMessages as $type => $messages): ?>
@@ -343,8 +343,8 @@ if ($searchQuery !== '') $currentCategoryName = 'Search Results';
                     <div class="d-flex align-items-center gap-3">
                         <h2 class="display-6 mb-0 text-dark fw-bold"><?= e($currentCategoryName) ?></h2>
                         <?php if ($selectedCategoryId): ?>
-                            <button class="btn btn-outline-secondary btn-sm btn-circle" 
-                                    data-bs-toggle="modal" 
+                            <button class="btn btn-outline-secondary btn-sm btn-circle"
+                                    data-bs-toggle="modal"
                                     data-bs-target="#editCategoryModal"
                                     title="Edit Category Settings">
                                 <i class="bi bi-gear-fill"></i>
@@ -368,7 +368,7 @@ if ($searchQuery !== '') $currentCategoryName = 'Search Results';
                             <?php endif; ?>
                         </div>
                     </form>
-                    
+
                     <!-- Scaling Widget -->
                     <div class="input-group" style="max-width: 200px;">
                         <span class="input-group-text bg-white" title="Scale Ingredients"><i class="bi bi-calculator"></i></span>
@@ -387,7 +387,7 @@ if ($searchQuery !== '') $currentCategoryName = 'Search Results';
                 </div>
             <?php else: ?>
                 <div class="row g-4 masonry-grid">
-                    <?php foreach ($recipes as $recipe): 
+                    <?php foreach ($recipes as $recipe):
                         $ingLines = array_filter(array_map('trim', preg_split('/\r\n|\r|\n/', $recipe['ingredients'])));
                     ?>
                         <div class="col-md-6 col-xl-4">
@@ -602,9 +602,9 @@ if ($searchQuery !== '') $currentCategoryName = 'Search Results';
                         <button class="btn btn-outline-primary">Save</button>
                     </div>
                 </form>
-                
+
                 <hr>
-                
+
                 <form method="post" onsubmit="return confirm('Delete this category? It must be empty first.');">
                     <input type="hidden" name="action" value="delete_category">
                     <input type="hidden" name="category_id" value="<?= $selectedCategoryId ?>">
@@ -641,18 +641,18 @@ if ($searchQuery !== '') $currentCategoryName = 'Search Results';
 
 <!-- Logic reuse for sidebar -->
 <?php
-// Capture sidebar HTML logic in a clean way or separate file. 
+// Capture sidebar HTML logic in a clean way or separate file.
 // For single file script, we use an output buffer or just PHP logic.
-// We'll define the logic inside the HTML area above, but since I used 'include', 
+// We'll define the logic inside the HTML area above, but since I used 'include',
 // let's just paste the sidebar code inside the `include` buffers:
 ?>
-<!-- This block is fake-included in the HTML above by copy-pasting logic, 
+<!-- This block is fake-included in the HTML above by copy-pasting logic,
      but in a real app use a partial. Here is the logic to place inside the Sidebar divs: -->
 <?php ob_start(); ?>
     <h6 class="text-uppercase text-muted fw-bold fs-7 mb-3" style="letter-spacing:1px; font-size: 0.75rem;">Categories</h6>
     <div class="nav flex-column nav-pills mb-3">
         <?php foreach ($categories as $cat): ?>
-            <a href="<?= e(categoryUrl((int)$cat['id'], $searchQuery)) ?>" 
+            <a href="<?= e(categoryUrl((int)$cat['id'], $searchQuery)) ?>"
                class="nav-link sidebar-link d-flex justify-content-between align-items-center mb-1 <?= (int)$cat['id'] === $selectedCategoryId ? 'active' : '' ?>">
                 <span><?= e($cat['name']) ?></span>
                 <span class="badge <?= (int)$cat['id'] === $selectedCategoryId ? 'bg-success-subtle text-success' : 'bg-light text-secondary' ?> rounded-pill">
@@ -664,11 +664,11 @@ if ($searchQuery !== '') $currentCategoryName = 'Search Results';
     <button class="btn btn-outline-secondary w-100 dashed-border" data-bs-toggle="modal" data-bs-target="#addCategoryModal">
         <i class="bi bi-plus"></i> Add Category
     </button>
-<?php 
-    $sidebarContent = ob_get_clean(); 
+<?php
+    $sidebarContent = ob_get_clean();
     // Injecting back into HTML for the single-file requirement
-    // Note: I will use Javascript to inject this to avoid code duplication in the single file 
-    // or simply output it twice in the PHP above. 
+    // Note: I will use Javascript to inject this to avoid code duplication in the single file
+    // or simply output it twice in the PHP above.
     // FIX: I will restructure the HTML above to not use 'include' but output $sidebarContent variable.
 ?>
 
@@ -685,7 +685,7 @@ if ($searchQuery !== '') $currentCategoryName = 'Search Results';
         const scaleInput = document.getElementById('scaleFactor');
         const resetBtn   = document.getElementById('resetScale');
         // We need to select ALL ingredient lists (cards and modals)
-        
+
         function fractionToNumber(text) {
             const [whole, fraction] = text.trim().split(' ');
             if (fraction) return parseFloat(whole) + fractionToNumber(fraction);
@@ -715,25 +715,25 @@ if ($searchQuery !== '') $currentCategoryName = 'Search Results';
                     }
                     return;
                 }
-                
+
                 const quantityText = match[0];
                 const baseQuantity = fractionToNumber(quantityText);
-                
+
                 if (Number.isNaN(baseQuantity)) return;
-                
+
                 const scaled = formatNumber(baseQuantity * factor);
                 const newText = original.replace(quantityText, scaled);
-                
+
                 if(line.querySelector('input')) {
                     line.innerHTML = `<input class="form-check-input me-2" type="checkbox"> ${newText}`;
                 } else {
                     line.textContent = newText;
                 }
             });
-            
+
             // Update serving badges
             document.querySelectorAll('.servings-badge').forEach(badge => {
-                // This assumes the badge holds the base serving size. 
+                // This assumes the badge holds the base serving size.
                 // For a robust app, store base serving in data attribute.
                 // For now, we won't scale visual servings to avoid confusion, just ingredients.
             });
