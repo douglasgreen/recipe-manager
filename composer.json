@@ -1,0 +1,54 @@
+{
+  "_version": "1.1.0",
+  "_modified": "2026-02-22",
+  "name": "douglasgreen/recipe-manager",
+  "description": "A recipe manager",
+  "type": "project",
+  "license": "MIT",
+  "require": {
+    "php": "^8.3"
+  },
+  "require-dev": {
+    "douglasgreen/code-linter": "^0.8.0",
+    "douglasgreen/code-metrics": "^0.6.0",
+    "friendsofphp/php-cs-fixer": "^3.94.2",
+    "phpstan/phpstan": "^2.1.39",
+    "rector/rector": "^2.3.8"
+  },
+  "autoload": {
+    "psr-4": {
+      "DouglasGreen\\RecipeManager\\": "src/"
+    }
+  },
+  "config": {
+    "platform": {
+      "php": "8.3"
+    },
+    "sort-packages": true
+  },
+  "scripts": {
+    "lint": [
+      "code-linter",
+      "code-metrics",
+      "php-cs-fixer fix --dry-run --verbose",
+      "phpstan analyse",
+      "rector process --dry-run"
+    ],
+    "lint:fix": [
+      "php-cs-fixer fix",
+      "rector process"
+    ],
+    "test": [
+      "phpunit"
+    ],
+    "test:unit": [
+      "phpunit --testsuite=Unit"
+    ],
+    "test:integration": [
+      "phpunit --testsuite=Integration"
+    ],
+    "qa": [
+      "@lint"
+    ]
+  }
+}
